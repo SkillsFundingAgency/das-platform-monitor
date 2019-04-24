@@ -17,7 +17,7 @@ namespace AzPlatformMonitor.Functions
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             //Configuration to Windows
 
-            String driverExecutableFileName = $"{context.FunctionAppDirectory}/chromedriver.exe";
+            String driverExecutableFileName = $"{context.FunctionAppDirectory}/chromedriver";
             log.LogInformation($"Chromedriver should be at {driverExecutableFileName}");
             ChromeOptions options = new ChromeOptions();
             options.AddArguments("window-size=1200x600");
