@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using AzPlatformMonitor.Core.Interfaces;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
 using NLog;
@@ -12,16 +13,18 @@ namespace AzPlatformMonitor.Functions
 {
     public class MonitorEmployerLogin
     {
-        private static IWebDriver driver;
         private readonly ILogger _log;
         private readonly IConfiguration _configuration;
+        private readonly IWebDriverService _webDriverService;
 
-        public MonitorEmployerLogin(ILogger log, IConfiguration configuration)
+        public MonitorEmployerLogin(ILogger log, IConfiguration configuration, IWebDriverService webDriverService)
         {
             _log = log;
             _configuration = configuration;
+            _webDriverService = webDriverService;
         }
 
+        [Disable]
         [FunctionName("MonitorEmployerLogin")]
         public void Run([TimerTrigger("0 */5 * * * *", RunOnStartup = true)]TimerInfo myTimer, ExecutionContext context)
         {
@@ -33,7 +36,7 @@ namespace AzPlatformMonitor.Functions
 
                 _log.Info($"C# Timer trigger function executed at: {DateTime.Now}");
 
-                using (driver = InitializeChromeDriver(context))
+                using (var driver = _webDriverService.InitializeChromeDriver())
                 {
                     // Start screen
                     _log.Info($"Start Url: {employerUrl}");
@@ -78,38 +81,6 @@ namespace AzPlatformMonitor.Functions
             {
                 _log.Error(e);
             }
-        }
-
-        public static string GetEnvironmentVariable(String Name)
-        {
-            var environmentVariable = Environment.GetEnvironmentVariable(Name, EnvironmentVariableTarget.Process);
-            if (String.IsNullOrEmpty(environmentVariable))
-            {
-                throw new Exception($"Could not find an environment variable [{Name}]");
-            }
-            return environmentVariable;
-        }
-
-        public static IWebDriver InitializeChromeDriver(ExecutionContext context)
-        {
-            var driverFileName = "chromedriver.exe";
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                driverFileName = "chromedriver";
-            }
-
-            var driverExecutableFilePath = $"{context.FunctionAppDirectory}/{driverFileName}";
-
-            ChromeOptions options = new ChromeOptions();
-            options.AddArguments("window-size=1200x600");
-            options.AddArguments("no-sandbox");
-            options.AddArguments("headless");
-
-            ChromeDriverService service = ChromeDriverService.CreateDefaultService(context.FunctionAppDirectory, driverExecutableFilePath);
-            driver = new ChromeDriver(service, options, TimeSpan.FromSeconds(5));
-            driver.Manage().Window.Maximize();
-
-            return driver;
         }
     }
 }

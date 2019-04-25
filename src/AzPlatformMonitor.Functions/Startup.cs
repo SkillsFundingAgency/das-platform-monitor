@@ -1,4 +1,6 @@
-﻿using AzPlatformMonitor.Functions;
+﻿using AzPlatformMonitor.Core.Interfaces;
+using AzPlatformMonitor.Core.Services;
+using AzPlatformMonitor.Functions;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +34,7 @@ namespace AzPlatformMonitor.Functions
 
             var logger = ConfigureLogger();
             builder.Services.AddSingleton<ILogger>(logger);
+            builder.Services.AddScoped<IWebDriverService, WebDriverService>();
         }
 
         public Logger ConfigureLogger()
@@ -44,6 +47,7 @@ namespace AzPlatformMonitor.Functions
                 Layout = "${date}|${level:uppercase=true}|${message} ${exception}|${logger}|${all-event-properties}"
             };
             config.AddTarget(consoleTarget);
+            config.AddRuleForAllLevels(consoleTarget);
 
             var fileTarget = new FileTarget()
             {
@@ -52,19 +56,20 @@ namespace AzPlatformMonitor.Functions
                 Layout = "${date}|${level:uppercase=true}|${message} ${exception}|${logger}|${all-event-properties}"
             };
             config.AddTarget(fileTarget);
-
-            var slackTarget = new SlackTarget()
-            {
-                Name = "slack",
-                WebHookUrl = _configuration.GetValue<string>("SlackWebhookUrl"),
-                Layout = "${date}|${level:uppercase=true}|${message} ${exception}|${logger}|${all-event-properties}"
-                // Add Fields and such
-            };
-            config.AddTarget(slackTarget);
-
             config.AddRuleForOneLevel(LogLevel.Error, fileTarget);
-            config.AddRuleForOneLevel(LogLevel.Error, slackTarget);
-            config.AddRuleForAllLevels(consoleTarget);
+
+            if (!string.IsNullOrWhiteSpace(_configuration.GetValue<string>("SlackWebhookUrl")))
+            {
+                var slackTarget = new SlackTarget()
+                {
+                    Name = "slack",
+                    WebHookUrl = _configuration.GetValue<string>("SlackWebhookUrl"),
+                    Layout = "${date}|${level:uppercase=true}|${message} ${exception}|${logger}|${all-event-properties}"
+                    // Add Fields and such
+                };
+                config.AddTarget(slackTarget);
+                config.AddRuleForOneLevel(LogLevel.Error, slackTarget);
+            }
 
             InternalLogger.LogFile = "internal-nlog.txt";
             InternalLogger.LogLevel = LogLevel.Info;
