@@ -1,6 +1,6 @@
-﻿using AzPlatformMonitor.Core.Interfaces;
-using AzPlatformMonitor.Core.Services;
-using AzPlatformMonitor.Functions;
+﻿using DASPlatformMonitor.Core.Interfaces;
+using DASPlatformMonitor.Core.Services;
+using DASPlatformMonitor.Functions;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +13,7 @@ using NLog.Targets;
 using System;
 
 [assembly: WebJobsStartup(typeof(Startup))]
-namespace AzPlatformMonitor.Functions
+namespace DASPlatformMonitor.Functions
 {
     public class Startup : IWebJobsStartup
     {

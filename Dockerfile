@@ -1,9 +1,9 @@
 FROM microsoft/dotnet:2.2-sdk AS installer-env
 
-COPY . /src/AzPlatformMonitor.Functions
-RUN cd /src/AzPlatformMonitor.Functions && \
+COPY . /src/DASPlatformMonitor.Functions
+RUN cd /src/DASPlatformMonitor.Functions && \
     mkdir -p /home/site/wwwroot && \
-    dotnet publish src/AzPlatformMonitor.Functions/AzPlatformMonitor.Functions.csproj --output /home/site/wwwroot
+    dotnet publish src/DASPlatformMonitor.Functions/DASPlatformMonitor.Functions.csproj --output /home/site/wwwroot
 
 FROM mcr.microsoft.com/azure-functions/dotnet:2.0
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot

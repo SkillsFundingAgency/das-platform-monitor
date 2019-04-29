@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using AzPlatformMonitor.Core.Interfaces;
+using DASPlatformMonitor.Core.Interfaces;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
 using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
-namespace AzPlatformMonitor.Functions
+namespace DASPlatformMonitor.Functions
 {
     public class MonitorEmployerLogin
     {

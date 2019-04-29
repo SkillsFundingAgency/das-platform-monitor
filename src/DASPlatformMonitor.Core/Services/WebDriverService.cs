@@ -1,4 +1,4 @@
-﻿using AzPlatformMonitor.Core.Interfaces;
+﻿using DASPlatformMonitor.Core.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace AzPlatformMonitor.Core.Services
+namespace DASPlatformMonitor.Core.Services
 {
     public class WebDriverService : IWebDriverService
     {

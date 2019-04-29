@@ -13,7 +13,7 @@
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AzPlatformMonitor.Core\AzPlatformMonitor.Core.csproj" />
+    <ProjectReference Include="..\DASPlatformMonitor.Core\DASPlatformMonitor.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
