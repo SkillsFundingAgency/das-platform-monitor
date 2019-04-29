@@ -29,9 +29,9 @@ namespace DASPlatformMonitor.Functions
         {
             try
             {
-                var employerUrl = _configuration.GetValue<string>("EmployerUrl");
-                var employerUser = _configuration.GetValue<string>("EmployerUser");
-                var employerPassword = _configuration.GetValue<string>("EmployerPassword");
+                var employerUrl = _configuration.GetValue<string>("EmployerUrl") ?? throw new Exception($"Could not find employerUrl config");
+                var employerUser = _configuration.GetValue<string>("EmployerUser") ?? throw new Exception($"Could not find employerUser config");
+                var employerPassword = _configuration.GetValue<string>("EmployerPassword") ?? throw new Exception($"Could not find employerPassword config");
 
                 _log.Info($"C# Timer trigger function executed at: {DateTime.Now}");
 
