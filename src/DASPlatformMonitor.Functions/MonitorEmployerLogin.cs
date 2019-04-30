@@ -25,7 +25,7 @@ namespace DASPlatformMonitor.Functions
         }
 
         [FunctionName("MonitorEmployerLogin")]
-        public void Run([TimerTrigger("0 */5 * * * *", RunOnStartup = true)]TimerInfo myTimer, ExecutionContext context)
+        public void Run([TimerTrigger("0 */5 6-18 * * 1-5", RunOnStartup = true)]TimerInfo myTimer, ExecutionContext context)
         {
             try
             {
