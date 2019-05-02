@@ -64,9 +64,10 @@ namespace DASPlatformMonitor.Functions
                 {
                     Name = "slack",
                     WebHookUrl = _configuration.GetValue<string>("SlackWebhookUrl"),
-                    Layout = "${date}|${level:uppercase=true}|${message} ${exception}|${logger}|${all-event-properties}"
+                    Layout = "[${level:uppercase=true}]\n${message}\n${exception}"
                     // Add Fields and such
                 };
+                slackTarget.Compact = true;
                 config.AddTarget(slackTarget);
                 config.AddRuleForOneLevel(LogLevel.Error, slackTarget);
             }

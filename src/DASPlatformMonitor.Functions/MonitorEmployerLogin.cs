@@ -69,10 +69,13 @@ namespace DASPlatformMonitor.Functions
                     // Assert
                     var expectedTextOnSuccess = driver.FindElement(By.XPath("//*[contains(text(), 'Set up your account')]"));
 
-                    if (expectedTextOnSuccess.Text != "Set up your account")
+                    if (expectedTextOnSuccess.Text != "Set up your account2")
                     {
-                        _log.Error("Login test failed");
-                        throw new Exception("Login test failed");
+                        _log.Error($"Login test failed.\nLast url: {driver.Url}");
+                    }
+                    else
+                    {
+                        _log.Info("Successfully logged in.");
                     }
                 }
             }
