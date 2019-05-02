@@ -35,7 +35,7 @@ namespace DASPlatformMonitor.Functions
 
                 _log.Info($"C# Timer trigger function executed at: {DateTime.Now}");
 
-                using (var driver = _webDriverService.InitializeChromeDriver())
+                using (var driver = _webDriverService.InitializeChromeDriver(context.FunctionAppDirectory))
                 {
                     // Start screen
                     _log.Info($"Start Url: {employerUrl}");

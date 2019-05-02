@@ -7,6 +7,6 @@ namespace DASPlatformMonitor.Core.Interfaces
 {
     public interface IWebDriverService
     {
-        IWebDriver InitializeChromeDriver();
+        IWebDriver InitializeChromeDriver(string functionAppDirectory);
     }
 }

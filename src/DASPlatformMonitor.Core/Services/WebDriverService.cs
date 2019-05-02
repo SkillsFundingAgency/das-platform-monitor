@@ -11,14 +11,7 @@ namespace DASPlatformMonitor.Core.Services
 {
     public class WebDriverService : IWebDriverService
     {
-        private readonly string _driverFolder;
-
-        public WebDriverService()
-        {
-            _driverFolder = Environment.CurrentDirectory;
-        }
-
-        public IWebDriver InitializeChromeDriver()
+        public IWebDriver InitializeChromeDriver(string functionAppDirectory)
         {
             var driverFileName = "chromedriver.exe";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -26,14 +19,14 @@ namespace DASPlatformMonitor.Core.Services
                 driverFileName = "chromedriver";
             }
 
-            var driverExecutableFilePath = $"{_driverFolder}/{driverFileName}";
+            var driverExecutableFilePath = $"{functionAppDirectory}/{driverFileName}";
 
             ChromeOptions options = new ChromeOptions();
             options.AddArguments("window-size=1200x600");
             options.AddArguments("no-sandbox");
             options.AddArguments("headless");
 
-            ChromeDriverService service = ChromeDriverService.CreateDefaultService(_driverFolder, driverExecutableFilePath);
+            ChromeDriverService service = ChromeDriverService.CreateDefaultService(functionAppDirectory, driverExecutableFilePath);
             var driver = new ChromeDriver(service, options, TimeSpan.FromSeconds(10));
             driver.Manage().Window.Maximize();
 
