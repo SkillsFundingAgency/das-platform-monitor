@@ -7,9 +7,9 @@ trigger:
 pr: none
 
 pool:
-  name: 'DAS - Continuous Integration'
-  demands: 
-  - docker
+  name: "DAS - Continuous Integration"
+  demands:
+    - docker
 
 variables:
   IMAGE_NAME: "apprenticeshipsdevops/das-platform-monitor"
@@ -49,3 +49,16 @@ steps:
     inputs:
       command: Push an image
       imageName: $(IMAGE_NAME):latest
+
+  - task: CopyFiles@2
+    displayName: "Copy Files to: $(build.artifactstagingdirectory)"
+    inputs:
+      contents: |
+        azure\**
+      targetFolder: "$(build.artifactstagingdirectory)/publish"
+      overWrite: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Artifact"
+    inputs:
+      pathToPublish: "$(build.artifactstagingdirectory)/publish"
