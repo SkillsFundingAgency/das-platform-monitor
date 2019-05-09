@@ -27,7 +27,7 @@ namespace DASPlatformMonitor.Core.Services
             options.AddArguments("headless");
 
             ChromeDriverService service = ChromeDriverService.CreateDefaultService(functionAppDirectory, driverExecutableFilePath);
-            var driver = new ChromeDriver(service, options, TimeSpan.FromSeconds(10));
+            var driver = new ChromeDriver(service, options, TimeSpan.FromSeconds(30));
             driver.Manage().Window.Maximize();
 
             return driver;
